@@ -35,7 +35,7 @@ $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 echo "Job Listings:<br>";
 foreach ($jobs as $job) {
     echo "ID: " . $job['id'] . "<br>";
-    echo "Title: " . $job['title'] . "<br>";
+    echo "Title: " . $job['titIe'] . "<br>";
     echo "Description: " . $job['description'] . "<br>";
     echo "-----------------------<br>";
 }
