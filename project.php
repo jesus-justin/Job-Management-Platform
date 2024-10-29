@@ -67,7 +67,7 @@ echo "Job Management Platform<br>";
 echo "1. Add Job:<br>";
 echo "<form action='' method='POST'>";
 echo "    Job Title: <input type='text' name='title' required><br>";
-echo "    Job Description: <textarea name='description' required></textarea><br>";
+echo "    Job Description: <textarea name='descriptions' required></textarea><br>";
 echo "    <button type='submit'>Add Job</button><br>";
 echo "</form><br>";
 
