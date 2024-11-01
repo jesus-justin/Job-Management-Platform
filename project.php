@@ -79,7 +79,7 @@ foreach ($jobs as $job) {
     echo "ID: " . $job['id'] . "<br>";
     echo "Title: " . $job['title'] . "<br>";
     echo "Description: " . $job['description'] . "<br>";
-    echo "-----------------------<br>";
+    echo "------------------------<br>";
     echo "------------------------<br>";
 }
 ?>
