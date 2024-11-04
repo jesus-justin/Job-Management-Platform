@@ -1,85 +1,62 @@
 <?php
-$host = 'localhost';
-$db = 'job_management';
-$user = 'root'; 
-$pass = ''; 
+$jobs = [
+    1 => [
+        'title' => 'Web Developer',
+        'description' => 'Develop and maintain websites.',
+        'company' => 'Tech Corp',
+        'location' => 'New York',
+        'salary' => '50000',
+        'contact' => '123-456-7890'
+    ],
+    2 => [
+        'title' => 'Graphic Designer',
+        'description' => 'Create graphics for clients.',
+        'company' => 'Creative Inc',
+        'location' => 'San Francisco',
+        'salary' => '45000',
+        'contact' => '987-654-3210'
+    ]
+];
 
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    echo "Connection failed: " . $e->getMessage();
-}
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $title = $_POST['title'];
-    $description = $_POST['description'];
-    
-    $stmt = $pdo->prepare("INSERT INTO jobs (title, description) VALUES (?, ?)");
-    $stmt->execute([$title, $description]);
-    
-    echo "Job added successfully!<br>";
-}
-
-echo "Job Management Platform<br>";
-echo "1. Add Job:<br>";
-echo "<form action='' method='POST'>";
-echo "    Job Title: <input type='text' name='title' required><br>";
-echo "    Job Description: <textarea name='description' required></textarea><br>";
-echo "    <button type='submit'>Add Job</button><br>";
-echo "</form><br>";
-
-$stmt = $pdo->query("SELECT * FROM jobs");
-$jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-echo "Job Listings:<br>";
-foreach ($jobs as $job) {
-    echo "ID: " . $job['id'] . "<br>";
-    echo "Title: " . $job['titIe'] . "<br>";
-    echo "Description: " . $job['description'] . "<br>";
-    echo "-----------------------<br>";
-}
+$jobId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+$job = $jobs[$jobId] ?? null;
 ?>
-<?php
-$host = 'localhost';
-$db = 'job_management';
-$user = 'root'; 
-$pass = ''; 
 
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    echo "Connection failed: " . $e->getMessage();
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Apply for <?php echo htmlspecialchars($job['title'] ?? 'Job'); ?></title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        form { max-width: 400px; margin: auto; }
+    </style>
+</head>
+<body>
+    <?php if ($job): ?>
+        <h1>Apply for <?php echo htmlspecialchars($job['title']); ?></h1>
+        <p><strong>Company:</strong> <?php echo htmlspecialchars($job['company']); ?></p>
+        <p><strong>Location:</strong> <?php echo htmlspecialchars($job['location']); ?></p>
+        <p><strong>Salary:</strong> $<?php echo htmlspecialchars($job['salary']); ?></p>
+        <p><strong>Contact:</strong> <?php echo htmlspecialchars($job['contact']); ?></p>
+        <p><?php echo htmlspecialchars($job['description']); ?></p>
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $title = $_POST['title'];
-    $description = $_POST['description'];
-    
-    $stmt = $pdo->prepare("INSERT INTO jobs (title, description) VALUES (?, ?)");
-    $stmt->execute([$title, $description]);
-    
-    echo "Job added successfully!<br>";
-}
+        <form method="POST" action="submit_application.php">
+            <input type="hidden" name="jobTitle" value="<?php echo htmlspecialchars($job['title']); ?>">
+            <label for="name">Name:</label><br>
+            <input type="text" id="name" name="name" required><br><br>
 
-echo "Job Management Platform<br>";
-echo "1. Add Job:<br>";
-echo "<form action='' method='POST'>";
-echo "    Job Title: <input type='text' name='title' required><br>";
-echo "    Job Description: <textarea name='descriptions' required></textarea><br>";
-echo "    <button type='submit'>Add Job</button><br>";
-echo "</form><br>";
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email" required><br><br>
 
-$stmt = $pdo->query("SELECT * FROM jobs");
-$jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            <label for="reason">Why Choose This Job:</label><br>
+            <textarea id="reason" name="reason" rows="4" required></textarea><br><br>
 
-echo "Job Listings:<br>";
-foreach ($jobs as $job) {
-    echo "ID: " . $job['id'] . "<br>";
-    echo "Title: " . $job['title'] . "<br>";
-    echo "Description: " . $job['description'] . "<br>";
-    echo "------------------------<br>";
-    echo "------------------------<br>";
-}
-?>
+            <button type="submit">Done</button>
+        </form>
+    <?php else: ?>
+        <p>Job not found.</p>
+    <?php endif; ?>
+</body>
+</html>

@@ -1,41 +1,48 @@
 <?php
-
-
-$jobs = [];
-
-function addJob($title, $company, $location, $description) {
-    global $jobs;
-    $job = [
-        'title' => $title,
-        'company' => $company,
-        'location' => $location,
-        'description' => $description
-    ];
-    $jobs[] = $job;
-}
-
-function displayJobs() {
-    global $jobs;
-    if (empty($jobs)) {
-        echo "<p>No jobs available at the moment.</p>";
-    } else {
-        foreach ($jobs as $job) {
-            echo "<div style='border: 1px solid #ddd; padding: 10px; margin: 5px;'>";
-            echo "<h3>" . htmlspecialchars($job['title']) . "</h3>";
-            echo "<p><strong>Company:</strong> " . htmlspecialchars($job['company']) . "</p>";
-            echo "<p><strong>Location:</strong> " . htmlspecialchars($job['location']) . "</p>";
-            echo "<p><strong>Description:</strong> " . htmlspecialchars($job['description']) . "</p>";
-            echo "</div>";
-        }
-    }
-}
-
-addJob("Software Engineer", "Tech Corp", "New York", "Responsible for developing software solutions.");
-addJob("Marketing Manager", "Biz Solutions", "Los Angeles", "Plan and oversee marketing campaigns.");
-
-displayJobs();
-
+// Sample job data stored in an array
+$jobs = [
+    [
+        'id' => 1,
+        'title' => 'Web Developer',
+        'description' => 'Develop and maintain websites.',
+        'company' => 'Tech Corp',
+        'location' => 'New York',
+        'salary' => '50000',
+        'contact' => '123-456-7890'
+    ],
+    [
+        'id' => 2,
+        'title' => 'Graphic Designer',
+        'description' => 'Create graphics for clients.',
+        'company' => 'Creative Inc',
+        'location' => 'San Francisco',
+        'salary' => '45000',
+        'contact' => '987-654-3210'
+    ]
+];
 ?>
 
-
-?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Job Listings</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .job { border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+    <h1>Job Listings</h1>
+    <?php foreach ($jobs as $job): ?>
+        <div class="job">
+            <h2><?php echo $job['title']; ?></h2>
+            <p><strong>Company:</strong> <?php echo $job['company']; ?></p>
+            <p><strong>Location:</strong> <?php echo $job['location']; ?></p>
+            <p><strong>Salary:</strong> $<?php echo $job['salary']; ?></p>
+            <p><?php echo $job['description']; ?></p>
+            <a href="apply.php?id=<?php echo $job['id']; ?>">Apply</a>
+        </div>
+    <?php endforeach; ?>
+</body>
+</html>
