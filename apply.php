@@ -1,4 +1,5 @@
 <?php
+// Sample job data array (same structure as before)
 $jobs = [
     1 => [
         'title' => 'Web Developer',
@@ -18,7 +19,7 @@ $jobs = [
     ]
 ];
 
-
+// Get job ID from URL
 $jobId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $job = $jobs[$jobId] ?? null;
 ?>
@@ -58,5 +59,7 @@ $job = $jobs[$jobId] ?? null;
     <?php else: ?>
         <p>Job not found.</p>
     <?php endif; ?>
+    
+    <a href="index.php">Back to Job Listings</a>
 </body>
 </html>
