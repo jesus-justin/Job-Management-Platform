@@ -1,5 +1,5 @@
 <?php
-// Sample job data array (same structure as before)
+
 $jobs = [
     1 => [
         'title' => 'Web Developer',
