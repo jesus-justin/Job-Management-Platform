@@ -19,7 +19,7 @@ $jobs = [
     ]
 ];
 
-// Get job ID from URL
+
 $jobId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $job = $jobs[$jobId] ?? null;
 ?>
