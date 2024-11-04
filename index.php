@@ -1,5 +1,5 @@
 <?php
-// Sample job data stored in an array
+
 $jobs = [
     [
         'id' => 1,
