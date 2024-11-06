@@ -92,6 +92,7 @@
         echo "<p class='job-location'>Location: {$job['location']}</p>";
         echo "<p class='job-salary'>Salary: {$job['salary']}</p>";
         echo "<p class='job-description'>{$job['description']}</p>";
+        echo ".....................................................";
         echo "</div>";
     }
     ?>
