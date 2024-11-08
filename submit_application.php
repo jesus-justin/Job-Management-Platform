@@ -17,6 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <h1>Application Successful!</h1>
     <p>Thank you, <?php echo $name; ?>, for applying for the <strong><?php echo $jobTitle; ?></strong> position.</p>
     <p>We will contact you at <?php echo $email; ?> regarding your application status.</p>
-    <p><a href="index.php">Back to Job Listings</a></p>
+    <p><a href="job_listings.php">Back to Job Listings</a></p>
 </body>
 </html>

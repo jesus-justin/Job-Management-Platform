@@ -45,6 +45,20 @@
         .job-listing:last-child {
             border: none;
         }
+        .apply-button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #007acc;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .apply-button:hover {
+            background-color: #005fa3;
+        }
     </style>
 </head>
 <body>
@@ -86,17 +100,16 @@
         ]
     ];
 
-    foreach ($jobs as $job) {
+    foreach ($jobs as $index => $job) {
         echo "<div class='job-listing'>";
         echo "<h2 class='job-title'>{$job['title']}</h2>";
         echo "<p class='job-location'>Location: {$job['location']}</p>";
         echo "<p class='job-salary'>Salary: {$job['salary']}</p>";
         echo "<p class='job-description'>{$job['description']}</p>";
-        echo ".....................................................";
+        echo "<a href='apply.php?id={$index}' class='apply-button'>Apply Now</a>";
         echo "</div>";
     }
     ?>
-
 </div>
 
 </body>
