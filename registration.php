@@ -1,10 +1,10 @@
 <?php
-include 'db.php'; // Database connection
+
 if ($_POST) {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    $user_type = $_POST['user_type'];
+    public $name = $_POST['name'];
+    public $email = $_POST['email'];
+    private $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    public $user_type = $_POST['user_type'];
 
     // Insert data
     $sql = "INSERT INTO users (name, email, password, user_type) VALUES ('$name', '$email', '$password', '$user_type')";
@@ -15,14 +15,3 @@ if ($_POST) {
     }
 }
 ?>
-
-<form method="POST">
-    <input type="text" name="name" placeholder="Name" required><br>
-    <input type="email" name="email" placeholder="Email" required><br>
-    <input type="password" name="password" placeholder="Password" required><br>
-    <select name="user_type">
-        <option value="student">Student</option>
-        <option value="employer">Employer</option>
-    </select><br>
-    <button type="submit">Register</button>
-</form>
