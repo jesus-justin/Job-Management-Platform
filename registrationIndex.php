@@ -1,5 +1,19 @@
 <?php
 
+// Usage
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Database connection
+    $host = 'localhost'; // Replace with your host
+    $username = 'root';  // Replace with your database username
+    $password = '';      // Replace with your database password
+    $dbname = 'ourdatabase'; // Ensure this matches the name of your imported database
+
+    $conn = new mysqli($host, $username, $password, $dbname);
+
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    
 class User {
     private $conn;
     private $name;
@@ -30,16 +44,6 @@ class User {
         $stmt->close();
     }
 }
-
-// Usage
-if ($_POST) {
-    // Database connection
-    $dbConfig = parse_ini_file('config.ini'); // Database credentials in config.ini
-    $conn = new mysqli($dbConfig['host'], $dbConfig['username'], $dbConfig['password'], $dbConfig['dbname']);
-
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
 
     // Create User object
     $user = new User($conn);
