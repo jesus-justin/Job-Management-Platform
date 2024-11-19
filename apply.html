@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply for Job</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        form { max-width: 400px; margin: auto; }
+    </style>
+</head>
+<body>
+    <h1 id="job-title">Apply for Job</h1>
+    <p><strong>Company:</strong> <span id="company"></span></p>
+    <p><strong>Location:</strong> <span id="location"></span></p>
+    <p><strong>Salary:</strong> <span id="salary"></span></p>
+    <p><strong>Description:</strong> <span id="description"></span></p>
+
+    <form method="POST" action="submit_application.php">
+        <input type="hidden" id="jobTitle" name="jobTitle">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="reason">Why Choose This Job:</label><br>
+        <textarea id="reason" name="reason" rows="4" required></textarea><br><br>
+
+        <button type="submit">Submit Application</button>
+    </form>
+
+    <a href="job_listings.php">Back to Job Listings</a>
+</body>
+</html>
