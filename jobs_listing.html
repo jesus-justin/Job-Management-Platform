@@ -64,8 +64,15 @@
 <body>
     <div class="container">
         <h1>Job Listings in the Philippines</h1>
-        <div id="job-listings"></div>
+        <?php foreach ($jobs as $index => $job): ?>
+            <div class="job-listing">
+                <h2 class="job-title"><?php echo htmlspecialchars($job['title']); ?></h2>
+                <p class="job-location">Location: <?php echo htmlspecialchars($job['location']); ?></p>
+                <p class="job-salary">Salary: <?php echo htmlspecialchars($job['salary']); ?></p>
+                <p class="job-description"><?php echo htmlspecialchars($job['description']); ?></p>
+                <a href="apply.php?id=<?php echo $index; ?>" class="apply-button">Apply Now</a>
+            </div>
+        <?php endforeach; ?>
     </div>
-    <script src="job_listings.js"></script>
 </body>
 </html>
