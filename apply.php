@@ -1,65 +1,44 @@
 <?php
-  
 $jobs = [
-    1 => [
-        'title' => 'Web Developer',
-        'description' => 'Develop and maintain websites.',
-        'company' => 'Tech Corp',
-        'location' => 'New York',
-        'salary' => '50000',
-        'contact' => '123-456-7890'
+    [
+        "title" => "Software Developer",
+        "location" => "Makati City, Metro Manila",
+        "salary" => "₱50,000 - ₱70,000",
+        "description" => "Responsible for developing and maintaining software applications. Knowledge in PHP, JavaScript, and SQL is required. Great opportunity to work in a dynamic tech environment."
     ],
-    2 => [
-        'title' => 'Graphic Designer',
-        'description' => 'Create graphics for clients.',
-        'company' => 'Creative Inc',
-        'location' => 'San Francisco',
-        'salary' => '45000',
-        'contact' => '987-654-3210'
+    [
+        "title" => "Marketing Specialist",
+        "location" => "Quezon City, Metro Manila",
+        "salary" => "₱30,000 - ₱45,000",
+        "description" => "Develops and implements marketing campaigns. Collaborates with cross-functional teams to drive brand awareness and engagement. Experience in digital marketing is a plus."
+    ],
+    [
+        "title" => "Graphic Designer",
+        "location" => "Cebu City, Cebu",
+        "salary" => "₱20,000 - ₱35,000",
+        "description" => "Creates visual concepts to communicate ideas that inspire, inform, or captivate consumers. Proficiency in Adobe Photoshop, Illustrator, and similar design tools is necessary."
+    ],
+    [
+        "title" => "Human Resources Officer",
+        "location" => "Davao City, Davao del Sur",
+        "salary" => "₱25,000 - ₱40,000",
+        "description" => "Manages recruitment, employee relations, and compliance with labor laws. Prior experience in HR roles is required, along with excellent communication skills."
+    ],
+    [
+        "title" => "Customer Service Representative",
+        "location" => "Manila, Metro Manila",
+        "salary" => "₱18,000 - ₱25,000",
+        "description" => "Provides excellent customer service via phone, email, and chat. Strong communication skills and ability to handle customer inquiries professionally are required."
     ]
 ];
 
-
 $jobId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $job = $jobs[$jobId] ?? null;
+
+if ($job) {
+    include 'apply.html';
+} else {
+    echo "<p>Job not found.</p>";
+    echo "<a href='job_listings.php'>Back to Job Listings</a>";
+}
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Apply for <?php echo htmlspecialchars($job['title'] ?? 'Job'); ?></title>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        form { max-width: 400px; margin: auto; }
-    </style>
-</head>
-<body>
-    <?php if ($job): ?>
-        <h1>Apply for <?php echo htmlspecialchars($job['title']); ?></h1>
-        <p><strong>Company:</strong> <?php echo htmlspecialchars($job['company']); ?></p>
-        <p><strong>Location:</strong> <?php echo htmlspecialchars($job['location']); ?></p>
-        <p><strong>Salary:</strong> $<?php echo htmlspecialchars($job['salary']); ?></p>
-        <p><strong>Contact:</strong> <?php echo htmlspecialchars($job['contact']); ?></p>
-        <p><?php echo htmlspecialchars($job['description']); ?></p>
-
-        <form method="POST" action="submit_application.php">
-            <input type="hidden" name="jobTitle" value="<?php echo htmlspecialchars($job['title']); ?>">
-            <label for="name">Name:</label><br>
-            <input type="text" id="name" name="name" required><br><br>
-
-            <label for="email">Email:</label><br>
-            <input type="email" id="email" name="email" required><br><br>
-
-            <label for="reason">Why Choose This Job:</label><br>
-            <textarea id="reason" name="reason" rows="4" required></textarea><br><br>
-
-            <button type="submit">Done</button>
-        </form>
-    <?php else: ?>
-        <p>Job not found.</p>
-    <?php endif; ?>
-    
-    <a href="index.php">Back to Job Listings</a>
-</body>
-</html>
