@@ -1,3 +1,10 @@
+<?php
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -10,53 +17,42 @@
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
             margin: 0;
-            padding: 0;
+            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            text-align: center;
         }
-
-        .welcome-container {
-            background-color: #fff;
+        .container {
+            background-color: white;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
-
         h1 {
             color: #4a90e2;
-            margin-bottom: 10px;
         }
-
-        p {
-            color: #333;
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-
-        a {
+        .button {
             display: inline-block;
-            text-decoration: none;
             background-color: #4a90e2;
             color: white;
             padding: 10px 20px;
+            text-decoration: none;
             border-radius: 5px;
-            font-weight: bold;
+            margin-top: 20px;
         }
-
-        a:hover {
+        .button:hover {
             background-color: #357ab8;
         }
     </style>
 </head>
 <body>
-    <div class="welcome-container">
-        <h1>Welcome, <?php echo $username; ?>!</h1>
+    <div class="container">
+        <h1>Welcome, <?php echo htmlspecialchars($_SESSION['user_name']); ?>!</h1>
         <p>You have successfully logged in.</p>
-        <a href="logout.php">Proceed to Dashboard</a>
+        <a href="jobs_listing.php" class="button">View Job Listings</a>
+        <a href="logout.php" class="button">Logout</a>
     </div>
 </body>
 </html>
