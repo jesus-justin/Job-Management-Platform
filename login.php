@@ -1,65 +1,27 @@
 <?php
-require_once 'login.html'; 
+session_start();
+require_once 'db_connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Database connection
-    $host = 'localhost'; 
-    $username = 'root';  
-    $password = '';      
-    $dbname = 'ourdatabase';
-    
-    $conn = new mysqli($host, $username, $password, $dbname);
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt->execute([$email]);
+        $user = $stmt->fetch();
+
+        if ($user && password_verify($password, $user['password'])) {
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['user_name'] = $user['name'];
+            $_SESSION['user_type'] = $user['user_type'];
+            header("Location: welcome.php");
+            exit();
+        } else {
+            $error = "Invalid email or password";
+        }
+    } catch (PDOException $e) {
+        $error = "Login failed: " . $e->getMessage();
     }
-
-    class User {
-        private $conn;
-        private $email;
-        private $password;
-
-        public function __construct($dbConnection) {
-            $this->conn = $dbConnection;
-        }
-
-        public function setUserData($email, $password) {
-            $this->email = $email;
-            $this->password = $password;
-        }
-
-        public function login() {
-            $stmt = $this->conn->prepare("SELECT password, user_type FROM users WHERE email = ?");
-            $stmt->bind_param("s", $this->email);
-            $stmt->execute();
-            $stmt->store_result();
-
-            if ($stmt->num_rows > 0) {
-                $stmt->bind_result($hashedPassword, $user_type);
-                $stmt->fetch();
-
-                if (password_verify($this->password, $hashedPassword)) {
-                    echo "Login successful! Welcome, $user_type.";
-
-                    
-                } else {
-                    echo "Invalid password.";
-                }
-            } else {
-                echo "No user found with this email.";
-            }
-            $stmt->close();
-        }
-    }
-
-    $user = new User($conn);
-
-    $user->setUserData($_POST['email'], $_POST['password']);
-
-    
-    $user->login();
-
-
-    $conn->close();
 }
 ?>
