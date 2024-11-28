@@ -1,0 +1,65 @@
+<?php
+session_start();
+session_destroy();
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout Page</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: #333;
+        }
+        .logout-container {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            padding: 40px 20px;
+            width: 90%;
+            max-width: 400px;
+        }
+        .logout-container h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #4facfe;
+        }
+        .logout-container p {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        .logout-container a {
+            display: inline-block;
+            background: #4facfe;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .logout-container a:hover {
+            background: #00c7c7;
+        }
+    </style>
+</head>
+<body>
+    <div class="logout-container">
+        <h1>You've Successfully Logged Out</h1>
+        <p>Thank you for visiting.</p>
+        <a href="login.php">Login Again</a>
+    </div>
+</body>
+</html>
