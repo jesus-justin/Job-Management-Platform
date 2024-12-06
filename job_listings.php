@@ -2,15 +2,13 @@
 session_start();
 include 'db_connect.php';
 
-// Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit;
 }
 
-$user_id = $_SESSION['user_id']; // The current user (job seeker)
+$user_id = $_SESSION['user_id'];
 
-// Handle the search functionality for jobs
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 if ($search) {
     $stmt = $pdo->prepare("SELECT * FROM jobs WHERE title LIKE ?");
@@ -22,7 +20,6 @@ if ($search) {
 
 $jobs = $stmt->fetchAll();
 
-// Define the classes
 abstract class Job {
     protected $title;
     protected $description;
@@ -238,7 +235,7 @@ class PartTimeJob extends Job {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.getElementById('logoutButton').addEventListener('click', function(event) {
-            event.preventDefault(); // Prevent immediate redirection
+            event.preventDefault();
             Swal.fire({
                 title: 'Are you sure you want to logout?',
                 icon: 'warning',
@@ -249,7 +246,6 @@ class PartTimeJob extends Job {
                 cancelButtonColor: '#d33'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Simulate logout process
                     Swal.fire({
                         title: 'Logged Out',
                         text: 'You have been successfully logged out!',
@@ -257,7 +253,6 @@ class PartTimeJob extends Job {
                         timer: 1500,
                         showConfirmButton: false
                     }).then(() => {
-                        // Redirect to the actual logout page
                         window.location.href = 'logout.php';
                     });
                 }
