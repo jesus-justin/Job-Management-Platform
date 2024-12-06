@@ -1,8 +1,8 @@
 <?php
-$host = 'localhost'; // Database host
-$db = 'job_portal'; // Database name
-$user = 'root'; // Database username
-$pass = ''; // Database password (adjust as needed)
+$host = 'localhost'; 
+$db = 'job_portal'; 
+$user = 'root'; 
+$pass = ''; 
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
