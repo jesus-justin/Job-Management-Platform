@@ -2,13 +2,11 @@
 session_start();
 include 'db_connect.php';
 
-// Check if the user is logged in and is an employer
 if (!isset($_SESSION['user_id']) || $_SESSION['position'] !== 'employer') {
     header('Location: login.php');
     exit;
 }
 
-// Delete application
 if (isset($_GET['delete_id'])) {
     $stmt = $pdo->prepare("DELETE FROM job_applications WHERE id = ?");
     $stmt->execute([$_GET['delete_id']]);
@@ -16,19 +14,16 @@ if (isset($_GET['delete_id'])) {
     exit;
 }
 
-// Fetch applications
 $stmt = $pdo->prepare("SELECT * FROM job_applications");
 $stmt->execute();
 $applications = $stmt->fetchAll();
 
-// Handle update application form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_id'])) {
     $id = $_POST['update_id'];
     $name = $_POST['name'];
     $email = $_POST['email'];
     $qualifications = $_POST['qualifications'];
 
-    // Update application
     $stmt = $pdo->prepare("UPDATE job_applications SET applicant_name = ?, applicant_email = ?, qualifications = ? WHERE id = ?");
     $stmt->execute([$name, $email, $qualifications, $id]);
 
@@ -54,7 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_id'])) {
         .actions a { color: #007acc; text-decoration: none; }
         .actions a:hover { color: #005fa3; }
 
-        /* Logout button styling */
         .logout-btn {
             position: absolute;
             top: 20px;
@@ -75,7 +69,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_id'])) {
 </head>
 <body>
 
-    <!-- Logout Button -->
     <a href="logout.php" class="logout-btn">Logout</a>
 
     <div class="container">
