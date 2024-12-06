@@ -7,7 +7,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['position'] !== 'employer') {
     exit;
 }
 
-// Fetch application details
 if (isset($_GET['id'])) {
     $stmt = $pdo->prepare("SELECT * FROM job_applications WHERE id = ?");
     $stmt->execute([$_GET['id']]);
@@ -17,7 +16,6 @@ if (isset($_GET['id'])) {
     }
 }
 
-// Update application
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_id'])) {
     $id = $_POST['update_id'];
     $name = $_POST['name'];
