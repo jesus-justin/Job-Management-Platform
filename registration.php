@@ -1,95 +1,174 @@
 <?php
 session_start();
-require_once 'db_connect.php';
+include 'db_connect.php';
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit();
-}
+$error = '';
+$registrationSuccess = false; 
 
-try {
-    $stmt = $pdo->query("SELECT * FROM jobs");
-    $jobs = $stmt->fetchAll();
-} catch (PDOException $e) {
-    die("Error fetching jobs: " . $e->getMessage());
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
+    $stmt->execute([$email]);
+
+    if ($stmt->rowCount() > 0) {
+        $error = "Email already taken.";
+    } else {
+        $stmt = $pdo->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
+        $stmt->execute([$name, $email, $password]);
+        $registrationSuccess = true; // Set success flag
+        
+        if (strpos($email, 'admin') !== false) {
+            echo "<script>
+                    setTimeout(() => window.location.href = 'employer.php', 2000);
+                  </script>";
+        } else {
+            echo "<script>
+                    setTimeout(() => window.location.href = 'job_listings.php', 2000);
+                  </script>";
+        }
+    }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Listings - Philippines</title>
+    <title>Register</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f3f4f6;
-            color: #333;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
-            padding-top: 50px;
+            align-items: center;
+            height: 100vh;
         }
         .container {
-            width: 80%;
-            max-width: 800px;
-            background: #fff;
+            background-color: white;
+            padding: 30px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+            width: 400px;
         }
-        .job-listing {
-            border-bottom: 1px solid #eee;
-            padding: 15px 0;
+        h1 {
+            text-align: center;
+            color: #333;
         }
-        .job-title {
-            font-size: 1.5em;
-            color: #007acc;
+        .form-group {
+            margin-bottom: 15px;
         }
-        .job-location {
-            font-size: 0.9em;
-            color: #666;
-        }
-        .job-salary {
+        label {
+            display: block;
+            margin-bottom: 5px;
             font-weight: bold;
-            color: #2a9d8f;
+            color: #555;
         }
-        .job-description {
-            margin-top: 10px;
-            font-size: 0.95em;
-            line-height: 1.6;
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
         }
-        .job-listing:last-child {
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #5c6bc0;
+            color: white;
             border: none;
-        }
-        .apply-button {
-            display: inline-block;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
             margin-top: 10px;
-            padding: 10px 20px;
-            background-color: #007acc;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
         }
-        .apply-button:hover {
-            background-color: #005fa3;
+        button:hover {
+            background-color: #3949ab;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .link {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .link a {
+            color: #5c6bc0;
+            text-decoration: none;
+        }
+        .link a:hover {
+            text-decoration: underline;
+        }
+        .home-button {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .home-button a {
+            background-color: #2196f3;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        .home-button a:hover {
+            background-color: #1976d2;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Job Listings in the Philippines</h1>
-        <?php foreach ($jobs as $job): ?>
-            <div class="job-listing">
-                <h2 class="job-title"><?php echo htmlspecialchars($job['title']); ?></h2>
-                <p class="job-location">Location: <?php echo htmlspecialchars($job['location']); ?></p>
-                <p class="job-salary">Salary: <?php echo htmlspecialchars($job['salary']); ?></p>
-                <p class="job-description"><?php echo htmlspecialchars($job['description']); ?></p>
-                <a href="apply.php?id=<?php echo $job['id']; ?>" class="apply-button">Apply Now</a>
+        <h1>Register</h1>
+        <?php if ($error): ?>
+            <p class="error"><?php echo $error; ?></p>
+        <?php endif; ?>
+        <form method="POST">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" name="name" id="name" required>
             </div>
-        <?php endforeach; ?>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" required>
+            </div>
+            <button type="submit">Register</button>
+        </form>
+        <div class="link">
+            <p>Already have an account? <a href="login.php">Login</a></p>
+        </div>
+        <!-- Return to Home Page Button -->
+        <div class="home-button">
+            <a href="front_page.php">Return to Home Page</a>
+        </div>
     </div>
+
+    <!-- SweetAlert Trigger -->
+    <?php if ($registrationSuccess): ?>
+        <script>
+            Swal.fire({
+                title: 'Registration Successful!',
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 2000
+            });
+        </script>
+    <?php endif; ?>
 </body>
 </html>
