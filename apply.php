@@ -28,12 +28,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $applicant_email = $_POST['applicant_email'];
     $qualifications = $_POST['qualifications'];
 
-    // Insert application into the database
     $stmt = $pdo->prepare("INSERT INTO job_applications (job_id, applicant_name, applicant_email, qualifications, user_id) 
                            VALUES (?, ?, ?, ?, ?)");
     $stmt->execute([$job_id, $applicant_name, $applicant_email, $qualifications, $_SESSION['user_id']]);
 
-    // Return success response for AJAX
     echo json_encode(["status" => "success"]);
     exit();
 }
@@ -78,7 +76,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
         </div>
 
-        <!-- Return Button -->
         <div class="return-btn-container">
             <a href="job_listings.php" class="return-button">Return</a>
         </div>
@@ -87,9 +84,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script>
         $(document).ready(function() {
             $('#applicationForm').submit(function(e) {
-                e.preventDefault(); // Prevent default form submission
+                e.preventDefault();
 
-                var formData = $(this).serialize(); // Serialize form data
+                var formData = $(this).serialize();
 
                 $.ajax({
                     type: 'POST',
@@ -111,9 +108,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 }
                             }).then((result) => {
                                 if (result.isConfirmed) {
-                                    window.location.href = 'job_listings.php'; // Redirect to home page
+                                    window.location.href = 'job_listings.php';
                                 } else if (result.dismiss === Swal.DismissReason.cancel) {
-                                    window.location.href = 'logout.php'; // Redirect to logout
+                                    window.location.href = 'logout.php';
                                 }
                             });
                         }
