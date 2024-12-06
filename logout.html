@@ -1,65 +1,83 @@
+
 <?php
 session_start();
 session_destroy();
+setcookie(session_name(), '', time() - 3600, '/'); // Clear session cookies
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logout Page</title>
+    <title>Logout</title>
+    <!-- SweetAlert CSS and JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: linear-gradient(135deg, #4facfe, #00f2fe);
-            color: #333;
+            margin: 0;
         }
-        .logout-container {
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
+        .container {
             text-align: center;
-            padding: 40px 20px;
-            width: 90%;
-            max-width: 400px;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 30px 50px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
-        .logout-container h1 {
-            font-size: 24px;
-            margin-bottom: 10px;
-            color: #4facfe;
-        }
-        .logout-container p {
-            font-size: 16px;
+
+        h1 {
+            font-size: 3rem;
             margin-bottom: 20px;
-            color: #555;
+            color: #fff;
         }
-        .logout-container a {
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #ccc;
+        }
+
+        a {
             display: inline-block;
-            background: #4facfe;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #ff6f61;
             color: #fff;
             text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 4px;
+            border-radius: 5px;
             font-weight: bold;
-            transition: background 0.3s;
+            text-align: center;
+            transition: background-color 0.3s ease;
         }
-        .logout-container a:hover {
-            background: #00c7c7;
+
+        a:hover {
+            background-color: #ff4a3c;
         }
     </style>
 </head>
 <body>
-    <div class="logout-container">
-        <h1>You've Successfully Logged Out</h1>
-        <p>Thank you for visiting.</p>
-        <a href="login.php">Login Again</a>
+    <div class="container">
     </div>
+
+    <script>
+        // SweetAlert for logout success message
+        Swal.fire({
+            icon: 'success',
+            title: 'Logged Out!',
+            text: 'You have successfully been logged out.',
+            showConfirmButton: false,
+            timer: 2000 // Time in milliseconds (2 seconds before redirect)
+        }).then(() => {
+            // Redirect to the front page after the SweetAlert message
+            window.location.href = 'front_page.php';
+        });
+    </script>
 </body>
 </html>
